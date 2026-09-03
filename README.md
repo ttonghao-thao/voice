@@ -48,11 +48,28 @@ https://github.com/NVIDIA-NeMo/Speech/blob/nemotron-labs-voicechat/voicechat_rea
 
 1、服务启动和personaplex一样，虽然本地有模型文件，还是会向huggingface拉一个配置文件
 
-2、制作模型，需要修改
+2、制作模型，需要修改deploy_s2s_model.sh，且采用本地制作checkpoint方式见官方文档，见启动命令1
 
-2、修改load_utils.py文件，启动命令见下文
+3、修改load_utils.py文件，启动命令2见下文
 
-3、看源码里这一章，且采用本地制作checkpoint方式https://github.com/NVIDIA-NeMo/Speech/blob/nemotron-labs-voicechat/README.md#optimized-nvidia-inference-container-for-interactive-streaming-deployment
+4、看源码里这一章，https://github.com/NVIDIA-NeMo/Speech/blob/nemotron-labs-voicechat/README.md#optimized-nvidia-inference-container-for-interactive-streaming-deployment
+
+
+启动命令1:制作模型
+
+docker run -it --rm \
+  --runtime=nvidia \
+  --gpus '"device=0"' \
+  --shm-size=8GB \
+  -v ~/nemotron-labs-voicechat/hf-checkpoint:/checkpoint \
+  -v ~/nemotron-labs-voicechat/model-repo:/data/models \
+  -v /你的下载路径/NVIDIA-Nemotron-Nano-9B-v2:/models/NVIDIA-Nemotron-Nano-9B-v2:ro \
+  -e NEMO_CHECKPOINT_PATH=/checkpoint \
+  --entrypoint /s2s/deploy_s2s_model.sh \
+  nvcr.io/nim/nvidia/nemotron-labs-voicechat:latest
+  
+
+启动命令2:优化后的服务启动命令
 
 docker run -it --rm --name=nemotron-labs-voicechat \
   --runtime=nvidia \
