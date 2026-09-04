@@ -16,6 +16,8 @@ https://github.com/NVIDIA/personaplex/blob/main/Dockerfile
 web UI服务：
 https://localhost:8998
 
+https://github.com/nu-dialogue/j-moshi
+
 ## 注意事项：
 
 1、服务每次启动都会到huggingface.co的模型仓库下载config.json文件，国内需要代理才能访问
